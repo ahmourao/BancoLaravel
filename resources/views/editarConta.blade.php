@@ -16,6 +16,9 @@
 
     <h2 class="mb-4">Editar Conta</h2>
 
+    <!-- Botão para redirecionar para a lista de clientes -->
+    <a href="{{ route('listaClientesComContas') }}" class="btn btn-dark mb-3">Voltar para a lista de clientes</a>
+
     <form action="{{ route('atualizarConta', ['id' => $cliente->id]) }}" method="post">
         @csrf
         @method('put')

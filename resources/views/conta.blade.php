@@ -45,6 +45,7 @@
         <a href="{{ route('formularioCliente') }}" class="btn btn-secondary">Cadastrar Cliente</a>
 
         <!-- Botão para redirecionar para a lista de clientes -->
+        
         <a href="{{ route('listaClientesComContas') }}" class="btn btn-info">Ver Lista de Clientes</a>
     </form>
 
