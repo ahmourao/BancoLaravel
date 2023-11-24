@@ -14,7 +14,7 @@
 
 <body class="container mt-5">
 
-    <h2 class="mb-4">Lista de Clientes e Contas</h2>
+    <h2 class="mb-4">Painel de Controle de Cadastro</h2>
 
     <!-- Adicionando botão "Cadastrar Cliente" -->
     <a href="{{ route('formularioCliente') }}" class="btn btn-primary mb-3">Cadastrar Cliente</a>

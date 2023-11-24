@@ -21,3 +21,6 @@ Route::get('/editar-conta/{id}', [ContaController::class, 'editarConta'])->name(
 Route::get('/deletar-cliente/{id}', [ClienteController::class, 'deletar'])->name('deletarCliente');
 Route::put('/atualizar-cliente/{id}', [ClienteController::class, 'atualizar'])->name('atualizarCliente');
 Route::put('/atualizar-conta/{id}', [ContaController::class, 'atualizarConta'])->name('atualizarConta');
+
+
+Route::get('/lista-clientes-conta-corrente', [ClienteController::class, 'listarClientesContaCorrente'])->name('listaClientesContaCorrente');

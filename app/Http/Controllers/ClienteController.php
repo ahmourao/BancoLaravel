@@ -61,7 +61,7 @@ class ClienteController extends Controller
         // Validação dos dados do formulário
         $request->validate([
             'Nome' => 'required|string|max:255',
-            'CPF' => 'required|string|size:11|unique:clientes,CPF,'.$id.',id',
+            'CPF' => 'required|string|size:11|unique:clientes,CPF,' . $id . ',id',
             'Endereco' => 'nullable|string|max:255',
             'Telefone' => 'nullable|string|max:20',
         ]);
@@ -111,5 +111,15 @@ class ClienteController extends Controller
         $cliente->delete();
 
         return redirect()->route('listaClientesComContas')->with('success', 'Cliente deletado com sucesso.');
+    }
+
+    public function listarClientesContaCorrente()
+    {
+        // Busque os clientes que têm conta corrente ou conta poupança
+        $clientesComContas = Cliente::join('contas', 'clientes.ID_Conta', '=', 'contas.id')
+            ->whereNotNull('contas.TipoConta') // Garante que apenas clientes com contas são incluídos
+            ->get();
+
+        return view('listaCC', compact('clientesComContas'));
     }
 }
