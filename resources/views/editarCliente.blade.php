@@ -15,16 +15,18 @@
 <body class="container mt-5">
 
     <h2 class="mb-4">Editar Cliente</h2>
+    <!-- Botão para redirecionar para a lista de clientes -->
+    <a href="{{ route('listaClientesComContas') }}" class="btn btn-dark mb-3">Voltar para a lista de clientes</a>
 
     @if(session('success'))
-        <div class="alert alert-success">{{ session('success') }}</div>
+    <div class="alert alert-success">{{ session('success') }}</div>
     @endif
 
     <form action="{{ route('atualizarCliente', ['id' => $cliente->id]) }}" method="post">
         @csrf
         @method('put')
 
-        <div class="mb-3">
+        <div class="mb-3 mt-5">
             <label for="Nome" class="form-label">Nome:</label>
             <input type="text" class="form-control" name="Nome" id="Nome" value="{{ $cliente->Nome }}" required>
         </div>
