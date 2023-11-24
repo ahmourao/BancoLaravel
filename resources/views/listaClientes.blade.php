@@ -56,7 +56,11 @@
                 </td>
                 <td>
                     <a href="{{ route('editarCliente', ['id' => $cliente->id]) }}" class="btn btn-warning">Editar Cliente</a>
-                    <a href="{{ route('editarConta', ['id' => $cliente->id]) }}" class="btn btn-info">Editar Conta</a>
+
+                    @if ($cliente->conta)
+                    <a href="{{ route('editarConta', ['id' => $cliente->conta->id]) }}" class="btn btn-info">Editar Conta</a>
+                    @endif
+
                     <a href="{{ route('deletarCliente', ['id' => $cliente->id]) }}" class="btn btn-danger" onclick="return confirm('Tem certeza que deseja deletar este cliente?')">Deletar</a>
                 </td>
             </tr>
