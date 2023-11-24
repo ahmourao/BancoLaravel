@@ -18,24 +18,34 @@ class ContaController extends Controller
         $request->validate([
             'ID_Cliente' => 'required|numeric',
             'TipoConta' => 'required',
-            'Saldo' => 'required|numeric',
+            'Saldo' => 'required|regex:/^\d+(\,\d{1,2})?$/',
             // Adicione outras validações conforme necessário
         ]);
 
         // Substitua vírgulas por pontos no saldo
         $saldo = str_replace(',', '.', $request->input('Saldo'));
 
-        // Crie a conta
-        $conta = Conta::create([
-            'ID_Cliente' => $request->input('ID_Cliente'),
-            'TipoConta' => $request->input('TipoConta'),
-            'Saldo' => $saldo,
-        ]);
-
-        // Atualize o ID_Conta do cliente associado a esta conta
+        // Encontre o cliente
         $cliente = Cliente::find($request->input('ID_Cliente'));
-        $cliente->ID_Conta = $conta->id;
-        $cliente->save();
+
+        // Se o cliente já tiver uma conta, atualize o saldo
+        if ($cliente->conta) {
+            $cliente->conta->update([
+                'TipoConta' => $request->input('TipoConta'),
+                'Saldo' => $saldo,
+            ]);
+        } else {
+            // Caso contrário, crie uma nova conta
+            $conta = Conta::create([
+                'ID_Cliente' => $request->input('ID_Cliente'),
+                'TipoConta' => $request->input('TipoConta'),
+                'Saldo' => $saldo,
+            ]);
+
+            // Atualize o ID_Conta do cliente associado a esta conta
+            $cliente->ID_Conta = $conta->id;
+            $cliente->save();
+        }
 
         return redirect()->route('listaClientesComContas')->with('success', 'Conta salva com sucesso!');
     }
@@ -52,7 +62,7 @@ class ContaController extends Controller
         // Valide os dados do formulário
         $request->validate([
             'TipoConta' => 'required|string|max:255',
-            'Saldo' => 'required|numeric',
+            'Saldo' => 'required|regex:/^\d+([\.,]\d{1,2})?$/',
         ]);
 
         // Encontre o cliente
@@ -64,7 +74,7 @@ class ContaController extends Controller
         }
 
         // Substitua vírgulas por pontos no saldo
-        $saldo = str_replace(',', '.', $request->input('Saldo'));
+        $saldo = str_replace([',', '.'], '.', $request->input('Saldo'));
 
         // Atualize os atributos da conta
         $cliente->conta->update([

@@ -45,7 +45,7 @@
 
         <div class="mb-3">
             <label for="Saldo" class="form-label">Saldo:</label>
-            <input type="number" class="form-control" name="Saldo" id="Saldo" placeholder="Exemplo: 1003,56" required>
+            <input type="text" class="form-control" name="Saldo" id="Saldo" placeholder="Exemplo: 1003,56" required>
         </div>
 
         <button type="submit" class="btn btn-primary">Salvar</button>

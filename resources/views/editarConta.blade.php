@@ -42,7 +42,7 @@
 
         <div class="mb-3">
             <label for="Saldo" class="form-label">Saldo:</label>
-            <input type="number" class="form-control" name="Saldo" id="Saldo" placeholder="Exemplo: 1000.00" value="{{ $cliente->conta ? $cliente->conta->Saldo : '' }}" required>
+            <input type="text" class="form-control" name="Saldo" id="Saldo" placeholder="Exemplo: 1000.00" value="{{ $cliente->conta ? $cliente->conta->Saldo : '' }}" required>
         </div>
         <!-- Fim do formulário para editar a conta -->
 
