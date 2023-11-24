@@ -48,9 +48,8 @@ class ContaController extends Controller
     {
         // Valide os dados do formulário
         $request->validate([
-            // Adicione as regras de validação para os campos da conta
-            // Exemplo: 'TipoConta' => 'required|string|max:255',
-            //         'Saldo' => 'required|numeric',
+            'TipoConta' => 'required|string|max:255',
+            'Saldo' => 'required|numeric',
         ]);
 
         // Encontre o cliente
@@ -63,9 +62,8 @@ class ContaController extends Controller
 
         // Atualize os atributos da conta
         $cliente->conta->update([
-            // Adicione os campos que deseja atualizar
-            // Exemplo: 'TipoConta' => $request->input('TipoConta'),
-            //         'Saldo' => $request->input('Saldo'),
+            'TipoConta' => $request->input('TipoConta'),
+            'Saldo' => $request->input('Saldo'),
         ]);
 
         return redirect()->route('listaClientesComContas')->with('success', 'Conta do cliente atualizada com sucesso.');
