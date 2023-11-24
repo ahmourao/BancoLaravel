@@ -17,7 +17,7 @@
     <h2 class="mb-4">Cadastro de Conta</h2>
 
     <!-- Botão para redirecionar para o formulário de cadastro de cliente -->
-    <a href="{{ route('formularioCliente') }}" class="btn btn-secondary">Cadastrar Cliente</a>
+    <a href="{{ route('formularioCliente') }}" class="btn btn-dark">Cadastrar Cliente</a>
 
     <!-- Botão para redirecionar para a lista de clientes -->
 
@@ -45,7 +45,7 @@
 
         <div class="mb-3">
             <label for="Saldo" class="form-label">Saldo:</label>
-            <input type="number" class="form-control" name="Saldo" id="Saldo" placeholder="Exemplo: 1000.00" required>
+            <input type="number" class="form-control" name="Saldo" id="Saldo" placeholder="Exemplo: 1003,56" required>
         </div>
 
         <button type="submit" class="btn btn-primary">Salvar</button>

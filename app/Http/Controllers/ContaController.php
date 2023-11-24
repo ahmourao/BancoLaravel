@@ -22,11 +22,14 @@ class ContaController extends Controller
             // Adicione outras validações conforme necessário
         ]);
 
+        // Substitua vírgulas por pontos no saldo
+        $saldo = str_replace(',', '.', $request->input('Saldo'));
+
         // Crie a conta
         $conta = Conta::create([
             'ID_Cliente' => $request->input('ID_Cliente'),
             'TipoConta' => $request->input('TipoConta'),
-            'Saldo' => $request->input('Saldo'),
+            'Saldo' => $saldo,
         ]);
 
         // Atualize o ID_Conta do cliente associado a esta conta
@@ -60,10 +63,13 @@ class ContaController extends Controller
             return redirect()->route('listaClientesComContas')->with('error', 'Cliente sem conta associada.');
         }
 
+        // Substitua vírgulas por pontos no saldo
+        $saldo = str_replace(',', '.', $request->input('Saldo'));
+
         // Atualize os atributos da conta
         $cliente->conta->update([
             'TipoConta' => $request->input('TipoConta'),
-            'Saldo' => $request->input('Saldo'),
+            'Saldo' => $saldo,
         ]);
 
         return redirect()->route('listaClientesComContas')->with('success', 'Conta do cliente atualizada com sucesso.');
