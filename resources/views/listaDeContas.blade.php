@@ -34,7 +34,7 @@
                     <td>{{ $cliente->CPF }}</td>
                     @if ($cliente->conta)
                         <td>{{ $cliente->conta->TipoConta }}</td>
-                        <td>{{ $cliente->conta->Saldo }}</td>
+                        <td>{{ number_format($cliente->conta->Saldo, 2, ',', '.') }}</td>
                         <td>
                             @if ($cliente->conta->TipoConta === 'Conta Corrente')
                                 <!-- Verifica se já existe conta corrente associada -->

@@ -31,8 +31,8 @@
                 <td>{{$contaCorrente->id}}</td>
                 <td>{{$contaCorrente->ID_Conta}}</td>
                 <td>{{ $contaCorrente->NomeCliente }}</td>
-                <td>{{ $contaCorrente->LimiteCredito }}</td>
-                <td>{{ $contaCorrente->TarifaMensal }}</td>
+                <td>{{ number_format($contaCorrente->LimiteCredito, 2, ',', '.') }}</td>
+                <td>{{ number_format($contaCorrente->TarifaMensal, 2, ',', '.') }}</td>
                 <td>
                     <a href="{{ route('deletarContaCorrente', ['id' => $contaCorrente->id]) }}" class="btn btn-danger" onclick="return confirm('Tem certeza que deseja deletar a conta corrente?')">Deletar Conta Corrente</a>
                     <a href="{{ route('editarContaCorrente', ['id' => $contaCorrente->id]) }}" class="btn btn-warning">Editar Dados</a>

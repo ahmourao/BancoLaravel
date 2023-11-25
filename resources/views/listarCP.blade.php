@@ -31,8 +31,9 @@
                 <td>{{ $contaPoupanca->id }}</td>
                 <td>{{ $contaPoupanca->ID_Conta }}</td>
                 <td>{{ $contaPoupanca->NomeCliente }}</td>
-                <td>{{ $contaPoupanca->TaxaJuros }}</td>
-                <td>{{ $contaPoupanca->DataVencimento }}</td>
+                <td>{{ number_format($contaPoupanca->TaxaJuros, 2, ',', '.') }}</td>
+                <td>{{ date('d/m/Y', strtotime($contaPoupanca->DataVencimento)) }}</td>
+
                 <td>
                     <a href="{{ route('deletarContaPoupanca', ['id' => $contaPoupanca->id]) }}" class="btn btn-danger" onclick="return confirm('Tem certeza que deseja deletar a conta poupança?')">Deletar Conta Poupança</a>
                     <a href="{{ route('editarContaPoupanca', ['id' => $contaPoupanca->id]) }}" class="btn btn-warning">Editar Dados</a>

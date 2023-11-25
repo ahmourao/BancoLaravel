@@ -59,7 +59,19 @@ class ContaController extends Controller
     {
         $cliente = Cliente::find($id);
 
-        return view('editarConta', compact('cliente'));
+        // Verifique se o cliente existe
+        if (!$cliente) {
+            return redirect()->route('listaClientesComContas')->with('error', 'Cliente não encontrado.');
+        }
+    
+        // Verifique se o cliente possui uma conta associada
+        if ($cliente->conta) {
+            // Passe o ID da conta para a view
+            $contaId = $cliente->conta->id;
+            return view('editarConta', compact('cliente', 'contaId'));
+        } else {
+            return redirect()->route('listaClientesComContas')->with('error', 'Cliente sem conta associada.');
+        }
     }
 
     public function atualizarConta(Request $request, $id)
@@ -70,25 +82,26 @@ class ContaController extends Controller
             'Saldo' => 'required|regex:/^\d+([\.,]\d{1,2})?$/',
         ]);
 
-        // Encontre o cliente
-        $cliente = Cliente::find($id);
+        // Encontre a conta
+        $conta = Conta::find($id);
 
-        // Verifique se o cliente possui uma conta
-        if (!$cliente->conta) {
-            return redirect()->route('listaClientesComContas')->with('error', 'Cliente sem conta associada.');
+        // Verifique se a conta existe
+        if (!$conta) {
+            return redirect()->route('listaClientesComContas')->with('error', 'Conta não encontrada.');
         }
 
         // Substitua vírgulas por pontos no saldo
         $saldo = str_replace([',', '.'], '.', $request->input('Saldo'));
 
         // Atualize os atributos da conta
-        $cliente->conta->update([
+        $conta->update([
             'TipoConta' => $request->input('TipoConta'),
             'Saldo' => $saldo,
         ]);
 
-        return redirect()->route('listaClientesComContas')->with('success', 'Conta do cliente atualizada com sucesso.');
+        return redirect()->route('listaClientesComContas')->with('success', 'Dados da conta atualizados com sucesso.');
     }
+
 
     public function deletarConta($id)
     {
