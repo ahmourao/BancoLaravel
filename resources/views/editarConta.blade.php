@@ -19,7 +19,7 @@
     <!-- Botão para redirecionar para a lista de clientes -->
     <a href="{{ route('listaClientesComContas') }}" class="btn btn-dark mb-3">Voltar para a lista de clientes</a>
 
-    <form action="{{ route('atualizarConta', ['id' => $cliente->id]) }}" method="post">
+    <form action="{{ route('atualizarConta', ['id' => optional($cliente->conta)->id]) }}" method="post">
         @csrf
         @method('put')
 
@@ -35,14 +35,14 @@
         <div class="mb-3">
             <label for="TipoConta" class="form-label">Tipo de Conta:</label>
             <select class="form-select" name="TipoConta" id="TipoConta" required>
-                <option value="Conta Corrente" {{ $cliente->conta && $cliente->conta->TipoConta === 'Conta Corrente' ? 'selected' : '' }}>Conta Corrente</option>
-                <option value="Conta Poupança" {{ $cliente->conta && $cliente->conta->TipoConta === 'Conta Poupança' ? 'selected' : '' }}>Conta Poupança</option>
+                <option value="Conta Corrente" {{ optional($cliente->conta)->TipoConta === 'Conta Corrente' ? 'selected' : '' }}>Conta Corrente</option>
+                <option value="Conta Poupança" {{ optional($cliente->conta)->TipoConta === 'Conta Poupança' ? 'selected' : '' }}>Conta Poupança</option>
             </select>
         </div>
 
         <div class="mb-3">
             <label for="Saldo" class="form-label">Saldo:</label>
-            <input type="text" class="form-control" name="Saldo" id="Saldo" placeholder="Exemplo: 1000.00" value="{{ $cliente->conta ? $cliente->conta->Saldo : '' }}" required>
+            <input type="text" class="form-control" name="Saldo" id="Saldo" placeholder="Exemplo: 1000.00" value="{{ optional($cliente->conta)->Saldo }}" required>
         </div>
         <!-- Fim do formulário para editar a conta -->
 

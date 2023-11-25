@@ -4,6 +4,7 @@ namespace app\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Conta;
 
 class ContaCorrente extends Model
 {

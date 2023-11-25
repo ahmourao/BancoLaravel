@@ -10,36 +10,44 @@
 
 <body class="container mt-5">
 
-    <h2 class="mb-4">Painel de controle de Contas</h2>
+    <h2 class="mb-4">Painel de Controle de Contas</h2>
     <a href="{{ route('listaClientesComContas') }}" class="btn btn-primary mb-3">Ir para Cadastro</a>
     @if(count($clientesComContas) > 0)
-        <table class="table">
-            <thead>
-                <tr>
-                    <th scope="col">Nome</th>
-                    <th scope="col">CPF</th>
-                    <th scope="col">Tipo de Conta</th>
-                    <th scope="col">Saldo</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach($clientesComContas as $cliente)
-                    <tr>
-                        <td>{{ $cliente->Nome }}</td>
-                        <td>{{ $cliente->CPF }}</td>
-                        @if ($cliente->conta)
-                            <td>{{ $cliente->conta->TipoConta }}</td>
-                            <td>{{ $cliente->conta->Saldo }}</td>
-                        @else
-                            <td>Sem conta associada</td>
-                            <td>N/A</td>
-                        @endif
-                    </tr>
-                @endforeach
-            </tbody>
-        </table>
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">Nome</th>
+                <th scope="col">CPF</th>
+                <th scope="col">Tipo de Conta</th>
+                <th scope="col">Saldo</th>
+                <th scope="col">Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach($clientesComContas as $cliente)
+            <tr>
+                <td>{{ $cliente->Nome }}</td>
+                <td>{{ $cliente->CPF }}</td>
+                @if ($cliente->conta)
+                <td>{{ $cliente->conta->TipoConta }}</td>
+                <td>{{ $cliente->conta->Saldo }}</td>
+                <td>
+                    <a href="{{ route('criarContaCorrente', ['id' => $cliente->conta->id]) }}" class="btn btn-success">Criar Conta Corrente</a>
+                </td>
+                @else
+                <td>Sem conta associada</td>
+                <td>N/A</td>
+                <td>
+                    <a href="{{ route('criarContaCorrente', ['id' => $cliente->id]) }}" class="btn btn-success">Criar Conta Corrente</a>
+                    <a href="{{ route('criarContaPoupanca', ['id' => $cliente->id]) }}" class="btn btn-success">Criar Conta Poupança</a>
+                </td>
+                @endif
+            </tr>
+            @endforeach
+        </tbody>
+    </table>
     @else
-        <p class="mt-3">Nenhum cliente com conta encontrado.</p>
+    <p class="mt-3">Nenhum cliente com conta encontrado.</p>
     @endif
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
