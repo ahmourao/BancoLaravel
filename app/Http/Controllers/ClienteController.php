@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use App\Models\Cliente;
 use Illuminate\Http\Request;
 use App\Models\Conta;
+use Illuminate\Support\Facades\Log;
+use App\Models\ContaCorrente;
+use App\Models\ContaPoupanca;
 
 class ClienteController extends Controller
 {
@@ -85,32 +88,63 @@ class ClienteController extends Controller
 
     public function deletar($id)
     {
-        $cliente = Cliente::find($id);
+        try {
+            // Encontrar o cliente pelo ID
+            $cliente = Cliente::find($id);
 
-        if (!$cliente) {
-            return redirect()->route('listaClientesComContas')->with('error', 'Cliente não encontrado.');
-        }
-
-        // Obtenha o ID da conta associada ao cliente
-        $contaId = $cliente->ID_Conta;
-
-        // Remova a relação entre o cliente e a conta
-        $cliente->ID_Conta = null;
-        $cliente->save();
-
-        // Se houver uma conta associada ao cliente, delete a conta
-        if ($contaId) {
-            $conta = Conta::find($contaId);
-
-            if ($conta) {
-                $conta->delete();
+            // Verificar se o cliente existe
+            if (!$cliente) {
+                return redirect()->route('listaClientesComContas')->with('error', 'Cliente não encontrado.');
             }
+
+            // Obter o ID da conta associada ao cliente
+            $contaId = $cliente->ID_Conta;
+
+            // Remover a referência do cliente na tabela contas
+            $cliente->ID_Conta = null;
+            $cliente->save();
+
+            // Verificar se o cliente possui conta
+            if ($contaId) {
+                // Verificar se a conta está associada a contas_corrente
+                $contaCorrente = ContaCorrente::where('ID_Conta', $contaId)->first();
+
+                // Verificar se a conta está associada a contas_poupanca
+                $contaPoupanca = ContaPoupanca::where('ID_Conta', $contaId)->first();
+
+                // Remover registros na tabela contas_corrente se existirem
+                if ($contaCorrente) {
+                    $contaCorrente->delete();
+                }
+
+                // Remover registros na tabela contas_poupanca se existirem
+                if ($contaPoupanca) {
+                    $contaPoupanca->delete();
+                }
+
+                // Encontrar a conta associada ao cliente
+                $conta = Conta::find($contaId);
+
+                // Verificar se a conta existe
+                if ($conta) {
+                    // Remover a conta
+                    $conta->delete();
+                }
+            }
+
+            // Remover o cliente
+            $cliente->delete();
+
+            // Registrar mensagem de sucesso no log
+            Log::info("Cliente {$id} deletado com sucesso.");
+
+            return redirect()->route('listaClientesComContas')->with('success', 'Cliente deletado com sucesso.');
+        } catch (\Exception $e) {
+            // Registrar mensagem de erro no log
+            Log::error("Erro durante a exclusão do cliente {$id}: {$e->getMessage()}");
+
+            return redirect()->route('listaClientesComContas')->with('error', $e->getMessage());
         }
-
-        // Delete o cliente
-        $cliente->delete();
-
-        return redirect()->route('listaClientesComContas')->with('success', 'Cliente deletado com sucesso.');
     }
 
     // PÁGINA PAINEL DE CONTROLE DE CONTAS
