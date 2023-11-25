@@ -13,7 +13,7 @@
 <body class="container mt-5">
 
     <h2 class="mb-4">Criar Conta Corrente</h2>
-
+    <a href="{{ route('listaClientesContaCorrente') }}" class="btn btn-dark mb-3">Voltar para Painel de Contas</a>
     <form action="{{ route('salvarContaCorrente', ['idConta' => $conta->id]) }}" method="post">
         @csrf
         <!-- Exiba o nome do cliente -->

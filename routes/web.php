@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ContaPoupancaController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ClienteController;
 use App\Http\Controllers\ContaController;
@@ -47,5 +48,10 @@ Route::get('/listar-contas-correntes', [ContaCorrenteController::class, 'listarC
 
 
 // Rotas para contas poupança
-Route::get('/criar-conta-poupanca/{id}', [ContaController::class, 'criarContaPoupanca'])->name('criarContaPoupanca');
+Route::get('/criar-conta-poupanca/{id}', [ContaPoupancaController::class, 'criarContaPoupanca'])->name('criarContaPoupanca');
+Route::post('/salvar-conta-poupanca/{id}', [ContaPoupancaController::class, 'salvarContaPoupanca'])->name('salvarContaPoupanca');
+Route::get('/listar-contas-poupanca', [ContaPoupancaController::class, 'listarContasPoupancas'])->name('listarContasPoupancas');
+Route::get('/deletar-conta-poupanca/{id}', [ContaPoupancaController::class, 'deletarContaPoupanca'])->name('deletarContaPoupanca');
+Route::get('/editar-conta-poupanca/{id}', [ContaPoupancaController::class, 'editarContaPoupanca'])->name('editarContaPoupanca');
+Route::patch('/atualizar-conta-poupanca/{id}', [ContaPoupancaController::class, 'atualizarContaPoupanca'])->name('atualizarContaPoupanca');
 // Route::get('/editar-conta-poupanca/{id}', [ContaController::class, 'editarContaPoupanca'])->name('editarContaPoupanca');

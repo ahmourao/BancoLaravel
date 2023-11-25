@@ -18,8 +18,8 @@
 
     <!-- Adicionando botão "Cadastrar Cliente" -->
     <a href="{{ route('formularioCliente') }}" class="btn btn-primary mb-3">Cadastrar Cliente</a>
-    <a href="{{ route('formularioConta') }}" class="btn btn-primary mb-3">Cadastrar Conta</a>
-    <a href="{{ route('listaClientesContaCorrente') }}" class="btn btn-primary mb-3">Painel de Contas</a>
+    <a href="{{ route('formularioConta') }}" class="btn btn-secondary mb-3">Cadastrar Conta</a>
+    <a href="{{ route('listaClientesContaCorrente') }}" class="btn btn-dark mb-3">Painel de Contas</a>
 
     @if(count($clientes) > 0)
     <table class="table">

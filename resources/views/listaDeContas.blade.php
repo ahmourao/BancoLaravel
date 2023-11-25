@@ -12,7 +12,8 @@
 
     <h2 class="mb-4">Painel de Controle de Contas</h2>
     <a href="{{ route('listaClientesComContas') }}" class="btn btn-primary mb-3">Ir para Painel de Cadastro</a>
-    <a href="{{ route('listarContasCorrentes') }}" class="btn btn-primary mb-3">Lista de clientes com CC</a>
+    <a href="{{ route('listarContasCorrentes') }}" class="btn btn-secondary mb-3">Lista de clientes com CC</a>
+    <a href="{{ route('listarContasPoupancas') }}" class="btn btn-dark mb-3">Lista de clientes com CP</a>
 @if(count($clientesComContas) > 0)
     <table class="table">
         <thead>

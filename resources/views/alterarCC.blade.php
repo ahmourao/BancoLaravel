@@ -16,6 +16,8 @@
     <div class="container mt-5">
         <h1 class="mb-4">Alterar Conta Corrente</h1>
 
+        <a href="{{ route('listarContasCorrentes') }}" class="btn btn-dark mt-3">Voltar para Listagem de CC</a>
+
         @if(session('success'))
             <div class="alert alert-success">{{ session('success') }}</div>
         @endif
