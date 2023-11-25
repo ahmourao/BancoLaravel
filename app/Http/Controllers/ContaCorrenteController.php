@@ -14,7 +14,12 @@ class ContaCorrenteController extends Controller
     public function criarContaCorrente($id)
     {
         $conta = Conta::find($id);
-        return view('criarCC', compact('conta'));
+        // Realize um INNER JOIN com a tabela clientes para obter informações do cliente associado à conta
+        $cliente = Cliente::join('contas', 'clientes.ID_Conta', '=', 'contas.id')
+            ->where('contas.id', $id)
+            ->first(); // Selecione o primeiro resultado
+
+        return view('criarCC', compact('conta', 'cliente'));
     }
 
     public function salvarContaCorrente(Request $request, $idConta)

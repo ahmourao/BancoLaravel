@@ -35,13 +35,21 @@
                 <td>{{ $cliente->conta->TipoConta }}</td>
                 <td>{{ $cliente->conta->Saldo }}</td>
                 <td>
+                    @if ($cliente->conta->TipoConta === 'Conta Corrente')
                     <a href="{{ route('criarContaCorrente', ['id' => $cliente->conta->id]) }}" class="btn btn-success">Criar Conta Corrente</a>
+                    @elseif ($cliente->conta->TipoConta === 'Conta Poupança')
+                    <a href="{{ route('criarContaPoupanca', ['id' => $cliente->conta->id]) }}" class="btn btn-success">Criar Conta Poupança</a>
+                    @endif
+
+                    <a href="{{ route('deletarConta', ['id' => $cliente->id]) }}" class="btn btn-danger" onclick="return confirm('Tem certeza que deseja deletar a conta?')">Deletar Conta</a>
                 </td>
                 @else
                 <td>Sem conta associada</td>
                 <td>N/A</td>
                 <td>
                     <a href="{{ route('criarContaCorrente', ['id' => $cliente->id]) }}" class="btn btn-success">Criar Conta Corrente</a>
+                    <a href="{{ route('deletarConta', ['id' => $cliente->id]) }}" class="btn btn-danger" onclick="return confirm('Tem certeza que deseja deletar a conta?')">Deletar Conta</a>
+                    
                     <a href="{{ route('criarContaPoupanca', ['id' => $cliente->id]) }}" class="btn btn-success">Criar Conta Poupança</a>
                 </td>
                 @endif
@@ -52,6 +60,7 @@
     @else
     <p class="mt-3">Nenhum cliente com conta encontrado.</p>
     @endif
+
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>

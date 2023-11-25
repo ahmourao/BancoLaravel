@@ -4,7 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Models\Conta;
 use App\Models\Cliente;
+use App\Models\ContaCorrente;
+use App\Models\ContaPoupanca;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
+
 
 class ContaController extends Controller
 {
@@ -83,5 +88,67 @@ class ContaController extends Controller
         ]);
 
         return redirect()->route('listaClientesComContas')->with('success', 'Conta do cliente atualizada com sucesso.');
+    }
+
+    public function deletarConta($id)
+    {
+        // Iniciar uma transação
+        DB::beginTransaction();
+
+        try {
+            // Encontrar a conta pelo ID
+            $conta = Conta::find($id);
+
+            // Verificar se a conta existe
+            if (!$conta) {
+                throw new \Exception('Conta não encontrada.');
+            }
+
+            // Encontrar registros relacionados na tabela clientes
+            $clientes = DB::table('clientes')->where('ID_Conta', $id)->get();
+
+            // Deletar registros relacionados na tabela clientes
+            foreach ($clientes as $cliente) {
+                $clienteID = $cliente->id;
+
+                // Encontrar registros relacionados na tabela contas_corrente
+                $contaCorrente = ContaCorrente::where('ID_Conta', $id)->first();
+
+                // Deletar registros relacionados na tabela contas_corrente
+                if ($contaCorrente) {
+                    $contaCorrente->delete();
+                }
+
+                // Encontrar registros relacionados na tabela contas_poupanca
+                $contaPoupanca = ContaPoupanca::where('ID_Conta', $id)->first();
+
+                // Deletar registros relacionados na tabela contas_poupanca
+                if ($contaPoupanca) {
+                    $contaPoupanca->delete();
+                }
+
+                // Deletar registros relacionados na tabela clientes
+                DB::table('clientes')->where('id', $clienteID)->update(['ID_Conta' => null]);
+            }
+
+            // Deletar a conta
+            $conta->delete();
+
+            // Commit da transação
+            DB::commit();
+
+            // Registrar mensagem de sucesso no log
+            Log::info("Conta {$id} deletada com sucesso.");
+
+            return redirect()->route('listaClientesComContas')->with('success', 'Conta deletada com sucesso.');
+        } catch (\Exception $e) {
+            // Se ocorrer um erro, rollback da transação
+            DB::rollback();
+
+            // Registrar mensagem de erro no log
+            Log::error("Erro durante a exclusão da conta {$id}: {$e->getMessage()}");
+
+            return redirect()->route('listaClientesComContas')->with('error', $e->getMessage());
+        }
     }
 }
