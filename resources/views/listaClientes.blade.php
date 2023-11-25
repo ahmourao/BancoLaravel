@@ -25,7 +25,7 @@
     <table class="table">
         <thead>
             <tr>
-                <th scope="col">ID</th> <!-- Adicionando a coluna "ID" -->
+                <th scope="col">id Cliente</th> <!-- Adicionando a coluna "ID" -->
                 <th scope="col">Nome</th>
                 <th scope="col">CPF</th>
                 <th scope="col">Telefone</th>
