@@ -6,13 +6,15 @@ use Illuminate\Http\Request;
 use App\Models\Cliente;
 use App\Models\ContaCorrente;
 use App\Models\Conta;
+use Illuminate\Support\Facades\DB;
+
 
 class ContaCorrenteController extends Controller
 {
     public function criarContaCorrente($id)
     {
-        $cliente = Cliente::find($id);
-        return view('criarCC', compact('cliente'));
+        $conta = Conta::find($id);
+        return view('criarCC', compact('conta'));
     }
 
     public function salvarContaCorrente(Request $request, $idConta)
@@ -38,7 +40,17 @@ class ContaCorrenteController extends Controller
             'TarifaMensal' => $request->input('TarifaMensal'),
         ]);
 
-        return redirect()->route('listaClientesComContas')->with('success', 'Conta corrente criada com sucesso!');
+        return redirect()->route('listarContasCorrentes')->with('success', 'Conta corrente criada com sucesso!');
+    }
+
+    public function listarContasCorrentes()
+    {
+        $contasCorrentes = DB::table('contas_corrente')
+            ->join('contas', 'contas_corrente.ID_Conta', '=', 'contas.id')
+            ->join('clientes', 'contas.ID_Cliente', '=', 'clientes.id')
+            ->select('contas_corrente.*', 'clientes.Nome as NomeCliente')
+            ->get();
+        return view('listarCC', compact('contasCorrentes'));
     }
 
 

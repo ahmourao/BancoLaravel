@@ -27,11 +27,13 @@ Route::put('/atualizar-conta/{id}', [ContaController::class, 'atualizarConta'])-
 Route::get('/lista-clientes-conta-corrente', [ClienteController::class, 'listarClientesContaCorrente'])->name('listaClientesContaCorrente');
 
 // Rotas para contas correntes
+    // CRIAR CONTA CORRENTE
 Route::get('/criar-conta-corrente/{id}', [ContaCorrenteController::class, 'criarContaCorrente'])->name('criarContaCorrente');
 Route::post('/salvar-conta-corrente/{idConta}', [ContaCorrenteController::class, 'salvarContaCorrente'])->name('salvarContaCorrente');
 
+Route::get('/listar-contas-correntes', [ContaCorrenteController::class, 'listarContasCorrentes'])->name('listarContasCorrentes');
 // Route::get('/editar-conta-corrente/{id}', [ContaCorrenteController::class, 'editarContaCorrente'])->name('editarContaCorrente');
 
 // Rotas para contas poupança
-// Route::get('/criar-conta-poupanca/{id}', [ContaController::class, 'criarContaPoupanca'])->name('criarContaPoupanca');
+Route::get('/criar-conta-poupanca/{id}', [ContaController::class, 'criarContaPoupanca'])->name('criarContaPoupanca');
 // Route::get('/editar-conta-poupanca/{id}', [ContaController::class, 'editarContaPoupanca'])->name('editarContaPoupanca');

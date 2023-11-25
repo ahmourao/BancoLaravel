@@ -11,11 +11,13 @@
 <body class="container mt-5">
 
     <h2 class="mb-4">Painel de Controle de Contas</h2>
-    <a href="{{ route('listaClientesComContas') }}" class="btn btn-primary mb-3">Ir para Cadastro</a>
+    <a href="{{ route('listaClientesComContas') }}" class="btn btn-primary mb-3">Ir para Painel de Cadastro</a>
+    <a href="{{ route('listarContasCorrentes') }}" class="btn btn-primary mb-3">Lista de clientes com CC</a>
     @if(count($clientesComContas) > 0)
     <table class="table">
         <thead>
             <tr>
+                <th scope="col">id da conta</th>
                 <th scope="col">Nome</th>
                 <th scope="col">CPF</th>
                 <th scope="col">Tipo de Conta</th>
@@ -26,6 +28,7 @@
         <tbody>
             @foreach($clientesComContas as $cliente)
             <tr>
+                <td>{{$cliente->id}}</td>
                 <td>{{ $cliente->Nome }}</td>
                 <td>{{ $cliente->CPF }}</td>
                 @if ($cliente->conta)

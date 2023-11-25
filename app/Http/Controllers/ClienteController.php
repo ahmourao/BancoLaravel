@@ -113,6 +113,7 @@ class ClienteController extends Controller
         return redirect()->route('listaClientesComContas')->with('success', 'Cliente deletado com sucesso.');
     }
 
+    // PÁGINA PAINEL DE CONTROLE DE CONTAS
     public function listarClientesContaCorrente()
     {
         // Busque os clientes que têm conta corrente ou conta poupança
@@ -120,6 +121,6 @@ class ClienteController extends Controller
             ->whereNotNull('contas.TipoConta') // Garante que apenas clientes com contas são incluídos
             ->get();
 
-        return view('listaCC', compact('clientesComContas'));
+        return view('listaDeContas', compact('clientesComContas'));
     }
 }
