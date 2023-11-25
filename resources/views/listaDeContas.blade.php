@@ -13,7 +13,7 @@
     <h2 class="mb-4">Painel de Controle de Contas</h2>
     <a href="{{ route('listaClientesComContas') }}" class="btn btn-primary mb-3">Ir para Painel de Cadastro</a>
     <a href="{{ route('listarContasCorrentes') }}" class="btn btn-primary mb-3">Lista de clientes com CC</a>
-    @if(count($clientesComContas) > 0)
+@if(count($clientesComContas) > 0)
     <table class="table">
         <thead>
             <tr>
@@ -27,39 +27,46 @@
         </thead>
         <tbody>
             @foreach($clientesComContas as $cliente)
-            <tr>
-                <td>{{$cliente->id}}</td>
-                <td>{{ $cliente->Nome }}</td>
-                <td>{{ $cliente->CPF }}</td>
-                @if ($cliente->conta)
-                <td>{{ $cliente->conta->TipoConta }}</td>
-                <td>{{ $cliente->conta->Saldo }}</td>
-                <td>
-                    @if ($cliente->conta->TipoConta === 'Conta Corrente')
-                    <a href="{{ route('criarContaCorrente', ['id' => $cliente->conta->id]) }}" class="btn btn-success">Criar Conta Corrente</a>
-                    @elseif ($cliente->conta->TipoConta === 'Conta Poupança')
-                    <a href="{{ route('criarContaPoupanca', ['id' => $cliente->conta->id]) }}" class="btn btn-success">Criar Conta Poupança</a>
-                    @endif
+                <tr>
+                    <td>{{$cliente->id}}</td>
+                    <td>{{ $cliente->Nome }}</td>
+                    <td>{{ $cliente->CPF }}</td>
+                    @if ($cliente->conta)
+                        <td>{{ $cliente->conta->TipoConta }}</td>
+                        <td>{{ $cliente->conta->Saldo }}</td>
+                        <td>
+                            @if ($cliente->conta->TipoConta === 'Conta Corrente')
+                                <!-- Verifica se já existe conta corrente associada -->
+                                @if (!$cliente->contaCorrente)
+                                    <a href="{{ route('criarContaCorrente', ['id' => $cliente->conta->id]) }}" class="btn btn-success">Criar Conta Corrente</a>
+                                @endif
+                            @elseif ($cliente->conta->TipoConta === 'Conta Poupança')
+                                <!-- Verifica se já existe conta poupança associada -->
+                                @if (!$cliente->contaPoupanca)
+                                    <a href="{{ route('criarContaPoupanca', ['id' => $cliente->conta->id]) }}" class="btn btn-success">Criar Conta Poupança</a>
+                                @endif
+                            @endif
 
-                    <a href="{{ route('deletarConta', ['id' => $cliente->id]) }}" class="btn btn-danger" onclick="return confirm('Tem certeza que deseja deletar a conta?')">Deletar Conta</a>
-                </td>
-                @else
-                <td>Sem conta associada</td>
-                <td>N/A</td>
-                <td>
-                    <a href="{{ route('criarContaCorrente', ['id' => $cliente->id]) }}" class="btn btn-success">Criar Conta Corrente</a>
-                    <a href="{{ route('deletarConta', ['id' => $cliente->id]) }}" class="btn btn-danger" onclick="return confirm('Tem certeza que deseja deletar a conta?')">Deletar Conta</a>
-                    
-                    <a href="{{ route('criarContaPoupanca', ['id' => $cliente->id]) }}" class="btn btn-success">Criar Conta Poupança</a>
-                </td>
-                @endif
-            </tr>
+                            <a href="{{ route('deletarConta', ['id' => $cliente->id]) }}" class="btn btn-danger" onclick="return confirm('Tem certeza que deseja deletar a conta?')">Deletar Conta</a>
+                        </td>
+                    @else
+                        <td>Sem conta associada</td>
+                        <td>N/A</td>
+                        <td>
+                            <a href="{{ route('criarContaCorrente', ['id' => $cliente->id]) }}" class="btn btn-success">Criar Conta Corrente</a>
+                            <a href="{{ route('deletarConta', ['id' => $cliente->id]) }}" class="btn btn-danger" onclick="return confirm('Tem certeza que deseja deletar a conta?')">Deletar Conta</a>
+                            
+                            <a href="{{ route('criarContaPoupanca', ['id' => $cliente->id]) }}" class="btn btn-success">Criar Conta Poupança</a>
+                        </td>
+                    @endif
+                </tr>
             @endforeach
         </tbody>
     </table>
-    @else
+@else
     <p class="mt-3">Nenhum cliente com conta encontrado.</p>
-    @endif
+@endif
+
 
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>

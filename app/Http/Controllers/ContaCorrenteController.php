@@ -58,15 +58,47 @@ class ContaCorrenteController extends Controller
         return view('listarCC', compact('contasCorrentes'));
     }
 
+    public function deletarContaCorrente($id)
+    {
+        $contaCorrente = ContaCorrente::find($id);
 
-    // public function editarContaCorrente($id)
-    // {
-    //     $cliente = Cliente::find($id);
-    //     return view('editarCC', compact('cliente'));
-    // }
+        if (!$contaCorrente) {
+            return redirect()->route('listarContasCorrentes')->with('error', 'Conta corrente não encontrada.');
+        }
 
-    // public function atualizarContaCorrente(Request $request, $id)
-    // {
-    //     // Lógica para atualizar a conta corrente
-    // }
+        $contaCorrente->delete();
+
+        return redirect()->route('listarContasCorrentes')->with('success', 'Conta corrente deletada com sucesso.');
+    }
+
+    public function editarContaCorrente($id)
+    {
+        $contaCorrente = ContaCorrente::find($id);
+
+        if (!$contaCorrente) {
+            return redirect()->route('listarCC')->with('error', 'Conta Corrente não encontrada.');
+        }
+
+        return view('alterarCC', compact('contaCorrente'));
+    }
+
+    public function atualizarContaCorrente(Request $request, $id)
+    {
+        $request->validate([
+            'limiteCredito' => 'required|numeric',
+            'tarifaMensal' => 'required|numeric',
+        ]);
+
+        $contaCorrente = ContaCorrente::find($id);
+
+        if (!$contaCorrente) {
+            return redirect()->route('listarContasCorrentes')->with('error', 'Conta Corrente não encontrada.');
+        }
+
+        $contaCorrente->LimiteCredito = $request->input('limiteCredito');
+        $contaCorrente->TarifaMensal = $request->input('tarifaMensal');
+        $contaCorrente->save();
+
+        return redirect()->route('listarContasCorrentes')->with('success', 'Conta Corrente atualizada com sucesso.');
+    }
 }

@@ -29,13 +29,22 @@ Route::get('/deletar-conta/{id}', [ContaController::class, 'deletarConta'])->nam
 // PAINEL DE CONTROLE DE CONTAS
 Route::get('/lista-clientes-conta-corrente', [ClienteController::class, 'listarClientesContaCorrente'])->name('listaClientesContaCorrente');
 
+
+
 // Rotas para contas correntes
     // CRIAR CONTA CORRENTE
 Route::get('/criar-conta-corrente/{id}', [ContaCorrenteController::class, 'criarContaCorrente'])->name('criarContaCorrente');
 Route::post('/salvar-conta-corrente/{idConta}', [ContaCorrenteController::class, 'salvarContaCorrente'])->name('salvarContaCorrente');
-
+    //ALTERAR E DELETAR
+Route::get('/deletar-conta-corrente/{id}', [ContaCorrenteController::class, 'deletarContaCorrente'])->name('deletarContaCorrente');
+Route::get('/editar-conta-corrente/{id}', [ContaCorrenteController::class, 'editarContaCorrente'])->name('editarContaCorrente');
+Route::patch('/atualizar-conta-corrente/{id}', [ContaCorrenteController::class, 'atualizarContaCorrente'])->name('atualizarContaCorrente');
+    // LISTAGEM DE CONTAS CORRENTES
 Route::get('/listar-contas-correntes', [ContaCorrenteController::class, 'listarContasCorrentes'])->name('listarContasCorrentes');
 // Route::get('/editar-conta-corrente/{id}', [ContaCorrenteController::class, 'editarContaCorrente'])->name('editarContaCorrente');
+
+
+
 
 // Rotas para contas poupança
 Route::get('/criar-conta-poupanca/{id}', [ContaController::class, 'criarContaPoupanca'])->name('criarContaPoupanca');
